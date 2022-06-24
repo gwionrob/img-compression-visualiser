@@ -1,0 +1,49 @@
+.sideNav {
+    height: 100%;
+    position: fixed;
+    z-index: 1; 
+    top: 0; 
+    left: 0; 
+    background-color:#201c1c; 
+    transition: .5s ease; 
+    overflow-x: hidden; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
+.home {
+    height: 100%;
+    width: 100%;
+    top: 0; 
+    left: 0; 
+    transition: .5s ease; 
+    overflow-x: hidden; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
+.sideNav button {
+    margin-left: auto;
+    background-color: transparent;
+    color: red;
+    border: none;
+    font-size: large;
+    cursor: pointer;
+}
+
+button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+button img{
+    width: 30px;
+}
+
+a {
+    color: red;
+    margin-top: 5px;
+}
