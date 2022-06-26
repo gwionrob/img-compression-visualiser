@@ -1,5 +1,26 @@
+import Pixel from "./Pixel";
+
 const KMeans = (props) => {
-    return <div>K-Means</div>;
+    return (
+        <div className="portrait">
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+            <Pixel />
+        </div>
+    );
 };
 
 export default KMeans;
