@@ -12,13 +12,6 @@ const KMeans = (props) => {
             <Pixel />
             <Pixel />
             <Pixel />
-            <Pixel />
-            <Pixel />
-            <Pixel />
-            <Pixel />
-            <Pixel />
-            <Pixel />
-            <Pixel />
         </div>
     );
 };

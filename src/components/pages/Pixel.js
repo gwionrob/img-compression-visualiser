@@ -12,11 +12,9 @@ const Pixel = () => {
     const onColChangeMethod = (color) => {
         setColor(color);
     };
-    const onBlurMethod = (event) => {
-        if (event.relatedTarget) {
-            if (
-                (event.relatedTarget.className = "react-colorful__interactive")
-            ) {
+    const onMUMethod = (element) => {
+        if (element.target) {
+            if (element.target.className.includes("hue")) {
                 return;
             }
         }
@@ -35,7 +33,7 @@ const Pixel = () => {
                 <HexColorPicker
                     color={color}
                     onChange={onColChangeMethod}
-                    onMouseUp={onBlurMethod}
+                    onMouseUp={onMUMethod}
                 />
             ) : null}
         </div>
