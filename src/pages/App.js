@@ -1,4 +1,4 @@
-import SideNav from "./SideNav";
+import SideNav from "../components/SideNav";
 import Main from "./Main";
 import "../styles/App.css";
 import { React, useState, useEffect } from "react";
