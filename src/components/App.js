@@ -32,7 +32,7 @@ const App = () => {
 
     return (
         <div className="app">
-            <button onClick={openSideNav}>
+            <button onClick={openSideNav} className="sidenav-open">
                 <img src={sideImg} alt="side bar button icon" />
             </button>
             <SideNav width={wid} closeNav={closeSideNav} />

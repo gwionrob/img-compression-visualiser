@@ -43,10 +43,19 @@ title::first-letter {
     display: flex;
     flex-wrap: wrap;
     position: absolute;
-    top: 10%;
-    left: 10%;
-    height: 80%;
-    width: 80%;
+    top: 10vh;
+    left: 50vh;
+    height: 80vh;
+    width: 80vh;
+}
+
+.portrait button {
+    background-color: transparent;
+    cursor: pointer;
+    border: 3px;
+    border-color: aliceblue;
+    border-style: solid;
+    border-radius: 12px;
 }
 
 .pixel-container {
@@ -56,8 +65,6 @@ title::first-letter {
     border-style: solid;
     border-radius: 12px;
     overflow: hidden;
-    height: 33%;
-    width: 32%;
 }
 
 .pixel {
@@ -73,7 +80,13 @@ title::first-letter {
     width: 90%!important;
 }
 
-button{
+.sidenav-open {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.sidenav-close {
     background-color: transparent;
     border: none;
     cursor: pointer;

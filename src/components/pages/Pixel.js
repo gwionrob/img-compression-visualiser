@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
-const Pixel = () => {
+const Pixel = (props) => {
     const [displayColPick, setDisplayColPick] = useState(false);
     const [color, setColor] = useState("#000000");
 
@@ -21,7 +21,13 @@ const Pixel = () => {
         setDisplayColPick(false);
     };
     return (
-        <div className="pixel-container">
+        <div
+            className="pixel-container"
+            style={{
+                height: props.height.toString() + "%",
+                width: (props.height - 1).toString() + "%",
+            }}
+        >
             <div
                 className="pixel"
                 style={{
