@@ -1,11 +1,11 @@
 const XByXButton = (props) => {
     const onClickHandler = () => {
-        props.xByX(props.x);
+        props.mByN(props.x, props.x);
     };
 
     const style = {
-        height: (50 / 3).toString() + "%",
-        width: (100 / 3 - 0.2).toString() + "%",
+        height: (25).toString() + "%",
+        width: (100).toString() + "%",
     };
 
     return (
