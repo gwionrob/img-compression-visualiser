@@ -4,8 +4,11 @@ const XByXButton = (props) => {
     };
 
     const style = {
-        height: (50 / 3).toString() + "%",
-        width: (100 / 3 - 0.2).toString() + "%",
+        height: (25).toString() + "%",
+        width: (100).toString() + "%",
+        fontFamily: "'Ubuntu Mono', monospace",
+        fontSize: "30px",
+        color: "white",
     };
 
     return (

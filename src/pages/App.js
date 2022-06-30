@@ -1,6 +1,6 @@
 import SideNav from "../components/SideNav";
 import Main from "./Main";
-import "../styles/App.css";
+import "../styles/App.scss";
 import { React, useState, useEffect } from "react";
 import sideImg from "../images/sidebar-icon.png";
 import { useLocation } from "react-router-dom";
@@ -32,10 +32,16 @@ const App = () => {
 
     return (
         <div className="app">
-            <button onClick={openSideNav} className="sidenav-open">
-                <img src={sideImg} alt="side bar button icon" />
-            </button>
-            <SideNav width={wid} closeNav={closeSideNav} />
+            <div className="top-bar">
+                <button onClick={openSideNav} className="sidenav-open">
+                    <img
+                        className="sidenav-btn-img"
+                        src={sideImg}
+                        alt="sidenav button icon"
+                    />
+                </button>
+            </div>
+            <SideNav width={wid} closeNav={closeSideNav} currentTab={title} />
             <Main />
         </div>
     );

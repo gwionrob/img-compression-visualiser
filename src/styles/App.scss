@@ -1,0 +1,141 @@
+body {
+    background-color: #363434;
+}
+title {
+    &::first-letter {
+        text-transform: capitalize;
+    }
+}
+#root {
+    display: flex;
+    justify-content: center;
+}
+.app {
+    width: 100%;
+    .top-bar {
+        width: 100%;
+        height: fit-content;
+        .sidenav-open {
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            .sidenav-btn-img {
+                width: 30px;
+            }
+        }
+    }
+    .sidenav {
+        height: 100%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #242222;
+        transition: .5s ease;
+        clip: rect(auto, auto, auto, auto);
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        .sidenav-close {
+            position: absolute;
+            top: 8px;
+            left: 22px;
+            margin-right: auto;
+            background-color: transparent;
+            color: rgb(190, 25, 25);
+            border: none;
+            font-size: 30px;
+            font-family: 'Ubuntu Mono', monospace;
+            cursor: pointer;
+        }
+        a {
+            color: rgb(190, 25, 25);
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 25px;
+            margin-top: 50px;
+            margin-left: 30px;
+            white-space: nowrap;
+            cursor: pointer;
+            &:link {
+                text-decoration: none;
+            }
+            &:hover {
+                color: red;
+            }
+        }
+    }
+    .home {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #363434;
+    }
+    .k-means {
+        display: flex;
+        align-items: center;
+        margin: auto;
+        margin-top: 3vh;
+        height: 80vh;
+        width: 98vw;
+        justify-content: space-evenly;
+        .dropdown {
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+            height: 100%;
+            width: 25%;
+            float: right;
+            button {
+                background-color: transparent;
+                cursor: pointer;
+                border: 3px;
+                border-color: aliceblue;
+                border-style: solid;
+                border-radius: 12px;
+            }
+            select {
+                background-color: transparent;
+                cursor: pointer;
+                border: 3px;
+                border-color: aliceblue;
+                border-style: solid;
+                border-radius: 12px;
+            }
+        }
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+            height: 100%;
+            width: 25%;
+            float: left;
+        }
+        .portrait {
+            .pixel-container {
+                position: relative;
+                border: 3px;
+                border-color: aliceblue;
+                border-style: solid;
+                border-radius: 12px;
+                overflow: hidden;
+                .pixel {
+                    height: 100%;
+                    width: 100%;
+                    cursor: pointer;
+                }
+                .react-colorful {
+                    position: absolute !important;
+                    top: 5%;
+                    left: 5%;
+                    height: 90% !important;
+                    width: 90% !important;
+                }
+            }
+        }
+    }
+}
