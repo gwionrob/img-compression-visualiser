@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
-const Pixel = () => {
+const Pixel = (props) => {
     const [displayColPick, setDisplayColPick] = useState(false);
     const [color, setColor] = useState("#000000");
 
@@ -12,7 +12,8 @@ const Pixel = () => {
     const onColChangeMethod = (color) => {
         setColor(color);
     };
-    const onMUMethod = (element) => {
+
+    const onMouseUpMethodCP = (element) => {
         if (element.target) {
             if (element.target.className.includes("hue")) {
                 return;
@@ -20,8 +21,9 @@ const Pixel = () => {
         }
         setDisplayColPick(false);
     };
+
     return (
-        <div className="pixel-container">
+        <div className="pixel-container" id={props.id} ref={props.innerRef}>
             <div
                 className="pixel"
                 style={{
@@ -33,7 +35,7 @@ const Pixel = () => {
                 <HexColorPicker
                     color={color}
                     onChange={onColChangeMethod}
-                    onMouseUp={onMUMethod}
+                    onMouseUp={onMouseUpMethodCP}
                 />
             ) : null}
         </div>
