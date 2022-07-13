@@ -3,16 +3,21 @@ import MByNDropdown from "../components/MByNDropdown";
 import Pixel from "../components/Pixel";
 import XByXButton from "../components/XByXButton";
 import DragSelect from "dragselect";
-import { useLocation } from "react-router-dom";
+import { HexColorPicker } from "react-colorful";
 
 const KMeans = () => {
     const [columns, setNoOfColumns] = useState(3);
     const [rows, setNoOfRows] = useState(3);
+    const [colors, setColors] = useState(Array(rows * columns).fill("#000000"));
+    const [displayColPick, setDisplayColPick] = useState(false);
     const [selectedPixels, setSelectedPixels] = useState([]);
     const pixelRefs = useRef([]);
     const targetRef = useRef(null);
 
     useEffect(() => {
+        if (displayColPick) {
+            return;
+        }
         const dragSelect = new DragSelect({
             selectables: pixelRefs.current.filter((el) => {
                 return el !== null;
@@ -23,18 +28,50 @@ const KMeans = () => {
         });
         dragSelect.subscribe("callback", (e) => {
             if (e.items.length) {
-                setSelectedPixels(e.items.map((el) => el.id));
+                setSelectedPixels(e.items);
+                for (const el of e.items) {
+                    el.classList.add("selected");
+                }
+                setDisplayColPick(true);
+                dragSelect.stop();
             }
-            console.log(e.items.map((el) => el.id));
         });
-        return () => {
-            dragSelect.stop();
-        };
-    }, [pixelRefs, targetRef, columns, rows]);
+    }, [pixelRefs, targetRef, columns, rows, displayColPick]);
 
     const mByN = (m, n) => {
+        if (m === columns && n === rows) {
+            return;
+        }
+        document.querySelector(".ds-selector-area").remove();
         setNoOfColumns(m);
         setNoOfRows(n);
+        if (m * n >= colors.length) {
+            setColors(
+                colors.concat(Array(m * n - colors.length).fill("#000000")),
+            );
+        } else {
+            setColors(colors.slice(0, m * n));
+        }
+    };
+
+    const onColChangeMethod = (color) => {
+        let colorsCopy = [...colors];
+        for (const el of selectedPixels) {
+            colorsCopy[el.id] = color;
+        }
+        setColors(colorsCopy);
+    };
+
+    const onColMouseUpMethod = (element) => {
+        if (element.target) {
+            if (element.target.className.includes("hue")) {
+                return;
+            }
+        }
+        for (const el of selectedPixels) {
+            el.classList.remove("selected");
+        }
+        setDisplayColPick(false);
     };
 
     const pixels = [];
@@ -45,6 +82,7 @@ const KMeans = () => {
                 id={i}
                 key={i}
                 innerRef={(el) => (pixelRefs.current[i] = el)}
+                color={colors[i]}
             />,
         );
     }
@@ -71,6 +109,12 @@ const KMeans = () => {
             <div className="info"></div>
             <div className="portrait" style={portraitStyle} ref={targetRef}>
                 {pixels}
+                {displayColPick ? (
+                    <HexColorPicker
+                        onChange={onColChangeMethod}
+                        onMouseUp={onColMouseUpMethod}
+                    />
+                ) : null}
             </div>
             <div className="dropdown">
                 <XByXButton x={3} mByN={mByN} />
