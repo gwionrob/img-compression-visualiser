@@ -13,20 +13,11 @@ const Main = () => {
 
             <Route path="/img-compression-visualiser" element={<Home />} />
 
-            <Route
-                path="/img-compression-visualiser/discrete-cosine-transform"
-                element={<DCC />}
-            />
+            <Route path="/discrete-cosine-transform" element={<DCC />} />
 
-            <Route
-                path="/img-compression-visualiser/fractal-compression"
-                element={<FractalComp />}
-            />
+            <Route path="/fractal-compression" element={<FractalComp />} />
 
-            <Route
-                path="/img-compression-visualiser/k-means"
-                element={<KMeans />}
-            />
+            <Route path="/k-means" element={<KMeans />} />
         </Routes>
     );
 };

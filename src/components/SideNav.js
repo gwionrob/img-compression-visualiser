@@ -7,7 +7,7 @@ const SideNav = (props) => {
                 X
             </button>
             <Link
-                to="/img-compression-visualiser"
+                to="/"
                 onClick={props.closeNav}
                 style={
                     props.currentTab.slice(0, 3) === "Rec"
@@ -18,7 +18,7 @@ const SideNav = (props) => {
                 Home
             </Link>
             <Link
-                to="/img-compression-visualiser/discrete-cosine-transform"
+                to="/discrete-cosine-transform"
                 onClick={props.closeNav}
                 style={
                     props.currentTab.slice(0, 3) === "Dis"
@@ -29,7 +29,7 @@ const SideNav = (props) => {
                 Discrete Cosine Transform
             </Link>
             <Link
-                to="/img-compression-visualiser/fractal-compression"
+                to="/fractal-compression"
                 onClick={props.closeNav}
                 style={
                     props.currentTab.slice(0, 3) === "Fra"
@@ -40,7 +40,7 @@ const SideNav = (props) => {
                 Fractal Compression
             </Link>
             <Link
-                to="/img-compression-visualiser/k-means"
+                to="/k-means"
                 onClick={props.closeNav}
                 style={
                     props.currentTab.slice(0, 3) === "K M"
