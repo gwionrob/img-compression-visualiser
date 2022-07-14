@@ -9,7 +9,11 @@ import FractalComp from "./FractalComp";
 const Main = () => {
     return (
         <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route
+                exact
+                path="/img-compression-visualiser"
+                element={<Home />}
+            />
 
             <Route path="/discrete-cosine-transform" element={<DCC />} />
 
