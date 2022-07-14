@@ -113,6 +113,7 @@ const KMeans = () => {
                     <HexColorPicker
                         onChange={onColChangeMethod}
                         onMouseUp={onColMouseUpMethod}
+                        onTouchEnd={onColMouseUpMethod}
                     />
                 ) : null}
             </div>
