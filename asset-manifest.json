@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/img-compression-visualiser/static/css/main.dd7ec668.css",
+    "main.js": "/img-compression-visualiser/static/js/main.15a728cf.js",
+    "index.html": "/img-compression-visualiser/index.html",
+    "main.dd7ec668.css.map": "/img-compression-visualiser/static/css/main.dd7ec668.css.map",
+    "main.15a728cf.js.map": "/img-compression-visualiser/static/js/main.15a728cf.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dd7ec668.css",
+    "static/js/main.15a728cf.js"
+  ]
+}
