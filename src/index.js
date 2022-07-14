@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-    <BrowserRouter>
+    <BrowserRouter basename="/img-compression-visualiser">
         <App />
     </BrowserRouter>,
 );
