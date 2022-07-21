@@ -53,7 +53,7 @@ title {
         a {
             color: rgb(190, 25, 25);
             font-family: 'Ubuntu Mono', monospace;
-            font-size: 25px;
+            font-size: min(5vw,25px);
             margin-top: 50px;
             margin-left: 30px;
             white-space: nowrap;
@@ -79,17 +79,27 @@ title {
         display: flex;
         align-items: center;
         margin: auto;
+        @media screen and (max-width:600px) {
+            flex-direction: column;
+        }
         margin-top: 3vh;
         height: 80vh;
-        width: 98vw;
+        width: 95vw;
         justify-content: space-evenly;
         .dropdown {
             display: flex;
             flex-wrap: wrap;
             position: relative;
-            height: 100%;
-            width: 25%;
-            float: right;
+            justify-content: center;
+            @media screen and (max-width:600px) {
+                height: 25%;
+                width: 100%;
+            }
+            @media screen and (min-width:600px) {
+                height: 100%;
+                width: 25%;
+                float: right;
+            }
             button {
                 color: white;
                 background-color: transparent;
@@ -98,6 +108,11 @@ title {
                 border-color: aliceblue;
                 border-style: solid;
                 border-radius: 12px;
+                font-family: 'Ubuntu Mono', monospace;
+                font-size: 30px;
+            }
+            .x {
+                color: white;
                 font-family: 'Ubuntu Mono', monospace;
                 font-size: 30px;
             }
@@ -118,9 +133,15 @@ title {
             display: flex;
             flex-wrap: wrap;
             position: relative;
-            height: 100%;
-            width: 25%;
-            float: left;
+            @media screen and (max-width:600px) {
+                height: 25%;
+                width: 100%;
+            }
+            @media screen and (min-width:600px) {
+                height: 100%;
+                width: 25%;
+                float: left;
+            }
         }
         .portrait {
             .react-colorful {

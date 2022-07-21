@@ -1,8 +1,11 @@
 import { useRef } from "react";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const MByNDropdown = (props) => {
     const mSelectRef = useRef(null);
     const nSelectRef = useRef(null);
+    const { height, width } = useWindowDimensions();
+    const isMobile = width < 600;
 
     const changeHandler = () => {
         const newM = parseInt(mSelectRef.current.value);
@@ -11,13 +14,17 @@ const MByNDropdown = (props) => {
     };
 
     const containerStyle = {
-        height: (25).toString() + "%",
+        height: (isMobile ? 50 : 25).toString() + "%",
         width: (100).toString() + "%",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
     };
 
     const ddStyle = {
-        height: "100%",
-        width: "50%",
+        height: (100).toString() + "%",
+        width: (45).toString() + "%",
     };
 
     return (
@@ -40,6 +47,7 @@ const MByNDropdown = (props) => {
                 <option value={10}>10</option>
                 <option value={11}>11</option>
             </select>
+            <div className="x">x</div>
             <select
                 style={ddStyle}
                 ref={nSelectRef}
