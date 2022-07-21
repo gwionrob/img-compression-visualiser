@@ -4,6 +4,7 @@ import "../styles/App.scss";
 import { React, useState, useEffect } from "react";
 import sideImg from "../images/sidebar-icon.png";
 import { useLocation } from "react-router-dom";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const toTitle = (title) => {
     let newTitle = title === "" ? "Recreational Image Compression" : title;
@@ -16,18 +17,20 @@ const toTitle = (title) => {
 const App = () => {
     const title = toTitle(useLocation().pathname.slice(1).replaceAll("-", " "));
 
-    const [wid, setWid] = useState("0%");
+    const [navWid, setNavWid] = useState("0%");
+    const { height, width } = useWindowDimensions();
+    const isMobile = width < 600;
 
     useEffect(() => {
         document.title = title;
     });
 
     const openSideNav = () => {
-        setWid("25%");
+        setNavWid(isMobile ? "75%" : "25%");
     };
 
     const closeSideNav = () => {
-        setWid("0%");
+        setNavWid("0%");
     };
 
     return (
@@ -41,7 +44,11 @@ const App = () => {
                     />
                 </button>
             </div>
-            <SideNav width={wid} closeNav={closeSideNav} currentTab={title} />
+            <SideNav
+                width={navWid}
+                closeNav={closeSideNav}
+                currentTab={title}
+            />
             <Main />
         </div>
     );

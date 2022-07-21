@@ -4,6 +4,7 @@ import Pixel from "../components/Pixel";
 import XByXButton from "../components/XByXButton";
 import DragSelect from "dragselect";
 import { HexColorPicker } from "react-colorful";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const KMeans = () => {
     const [columns, setNoOfColumns] = useState(3);
@@ -11,6 +12,8 @@ const KMeans = () => {
     const [colors, setColors] = useState(Array(rows * columns).fill("#000000"));
     const [displayColPick, setDisplayColPick] = useState(false);
     const [selectedPixels, setSelectedPixels] = useState([]);
+    const { height, width } = useWindowDimensions();
+    const isMobile = width < 600;
     const pixelRefs = useRef([]);
     const targetRef = useRef(null);
 
@@ -96,8 +99,8 @@ const KMeans = () => {
         display: "grid",
         gridTemplateColumns: gridTempCol,
         gridTemplateRows: gridTempRow,
-        height: "50vw",
-        width: "50vw",
+        height: isMobile ? "95vw" : "50vw",
+        width: isMobile ? "95vw" : "50vw",
         maxHeight: colVsRow
             ? (80 * (rows / columns)).toString() + "vh"
             : "80vh",
