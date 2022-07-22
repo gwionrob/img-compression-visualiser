@@ -1,13 +1,19 @@
 import SideNav from "../components/SideNav";
 import Main from "./Main";
 import "../styles/App.scss";
-import { React, useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import sideImg from "../images/sidebar-icon.png";
 import { useLocation } from "react-router-dom";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const toTitle = (title) => {
-    let newTitle = title === "" ? "Recreational Image Compression" : title;
+    let newTitle =
+        title === ""
+            ? "Recreational Image Compression"
+            : title.charAt(0) === ":"
+            ? title.slice(1)
+            : title;
     newTitle = newTitle.replaceAll("-", " ");
     return newTitle.replace(/\w\S*/g, (title) => {
         return title.charAt(0).toUpperCase() + title.substr(1).toLowerCase();
@@ -34,23 +40,25 @@ const App = () => {
     };
 
     return (
-        <div className="app">
-            <div className="top-bar">
-                <button onClick={openSideNav} className="sidenav-open">
-                    <img
-                        className="sidenav-btn-img"
-                        src={sideImg}
-                        alt="sidenav button icon"
-                    />
-                </button>
+        <React.StrictMode>
+            <div className="app">
+                <div className="top-bar">
+                    <button onClick={openSideNav} className="sidenav-open">
+                        <img
+                            className="sidenav-btn-img"
+                            src={sideImg}
+                            alt="sidenav button icon"
+                        />
+                    </button>
+                </div>
+                <SideNav
+                    width={navWid}
+                    closeNav={closeSideNav}
+                    currentTab={title}
+                />
+                <Main />
             </div>
-            <SideNav
-                width={navWid}
-                closeNav={closeSideNav}
-                currentTab={title}
-            />
-            <Main />
-        </div>
+        </React.StrictMode>
     );
 };
 
