@@ -27,6 +27,16 @@ const MByNDropdown = (props) => {
         width: (45).toString() + "%",
     };
 
+    const options = [];
+    const maxOptions = isMobile ? 10 : 13;
+    for (let i = 1; i < maxOptions; i++) {
+        options.push(
+            <option value={i} key={i}>
+                {i}
+            </option>
+        );
+    }
+
     return (
         <div className="m-by-n-dd" style={containerStyle}>
             <select
@@ -35,17 +45,7 @@ const MByNDropdown = (props) => {
                 value={props.m}
                 onChange={changeHandler}
             >
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-                <option value={7}>7</option>
-                <option value={8}>8</option>
-                <option value={9}>9</option>
-                <option value={10}>10</option>
-                <option value={11}>11</option>
+                {options}
             </select>
             <div className="x">x</div>
             <select
@@ -54,17 +54,7 @@ const MByNDropdown = (props) => {
                 value={props.n}
                 onChange={changeHandler}
             >
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-                <option value={7}>7</option>
-                <option value={8}>8</option>
-                <option value={9}>9</option>
-                <option value={10}>10</option>
-                <option value={11}>11</option>
+                {options}
             </select>
         </div>
     );

@@ -44,13 +44,13 @@ title {
             left: 22px;
             margin-right: auto;
             background-color: transparent;
-            color: rgb(190, 25, 25);
+            color: red;
             border: none;
             font-size: 30px;
             font-family: 'Ubuntu Mono', monospace;
             cursor: pointer;
         }
-        a {
+        a, .dropdown-btn {
             color: rgb(190, 25, 25);
             font-family: 'Ubuntu Mono', monospace;
             font-size: min(5vw,25px);
@@ -65,6 +65,19 @@ title {
                 color: red;
             }
         }
+        .dropdown-btn {
+            background: transparent;
+            border: none;
+            padding: 0 !important;
+            text-align: left;
+        }
+        .dropdown-container {
+            display: flex;
+            flex-direction: column;
+            transition: .2s ease;
+            margin-left: 50px;
+            overflow: hidden;
+        }
     }
     .home {
         height: 100%;
@@ -75,7 +88,7 @@ title {
         align-items: center;
         background-color: #363434;
     }
-    .k-means {
+    .visualiser {
         display: flex;
         align-items: center;
         margin: auto;
@@ -86,11 +99,12 @@ title {
         height: 80vh;
         width: 95vw;
         justify-content: space-evenly;
-        .dropdown {
+        .dropdown, .compression {
             display: flex;
             flex-wrap: wrap;
             position: relative;
             justify-content: center;
+            align-content: center;
             @media screen and (max-width:600px) {
                 height: 25%;
                 width: 100%;
@@ -98,7 +112,6 @@ title {
             @media screen and (min-width:600px) {
                 height: 100%;
                 width: 25%;
-                float: right;
             }
             button {
                 color: white;
@@ -110,6 +123,11 @@ title {
                 border-radius: 12px;
                 font-family: 'Ubuntu Mono', monospace;
                 font-size: 30px;
+            }
+        }
+        .dropdown {
+            @media screen and (min-width:600px) {
+                float: right !important;
             }
             .x {
                 color: white;
@@ -127,6 +145,24 @@ title {
                 border-radius: 12px;
                 font-family: 'Ubuntu Mono', monospace;
                 font-size: 30px;
+            }
+        }
+        .compression {
+            select {
+                color: white;
+                background-color: transparent;
+                cursor: pointer;
+                text-align-last: center;
+                border: 3px;
+                border-color: aliceblue;
+                border-style: solid;
+                border-radius: 12px;
+                font-family: 'Ubuntu Mono', monospace;
+                font-size: 30px;
+                width: 100%;
+            }
+            @media screen and (min-width:600px) {
+                float: left !important;
             }
         }
         .info {

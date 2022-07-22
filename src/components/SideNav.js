@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const SideNav = (props) => {
+    const [ddHeight, setDdHeight] = useState("0%");
+    const [dropDownVisible, setDropDownVisible] = useState(false);
+
+    const toggleDd = () => {
+        setDdHeight(dropDownVisible ? "0%" : "40%");
+        setDropDownVisible(!dropDownVisible);
+    };
+
     return (
         <div className="sidenav" style={{ width: props.width }}>
             <button onClick={props.closeNav} className="sidenav-close">
@@ -18,38 +27,62 @@ const SideNav = (props) => {
                 Home
             </Link>
             <Link
-                to="/discrete-cosine-transform"
+                to="/about"
                 onClick={props.closeNav}
                 style={
-                    props.currentTab.slice(0, 3) === "Dis"
+                    props.currentTab.slice(0, 3) === "Abo"
                         ? { color: "red" }
                         : null
                 }
             >
-                Discrete Cosine Transform
+                About
             </Link>
-            <Link
-                to="/fractal-compression"
-                onClick={props.closeNav}
+            <button
+                className="dropdown-btn"
+                onClick={toggleDd}
                 style={
-                    props.currentTab.slice(0, 3) === "Fra"
+                    ["K M", "Dis", "Fra"].includes(props.currentTab.slice(0, 3))
                         ? { color: "red" }
                         : null
                 }
             >
-                Fractal Compression
-            </Link>
-            <Link
-                to="/k-means"
-                onClick={props.closeNav}
-                style={
-                    props.currentTab.slice(0, 3) === "K M"
-                        ? { color: "red" }
-                        : null
-                }
-            >
-                K-Means
-            </Link>
+                Visualiser
+            </button>
+            <div className="dropdown-container" style={{ height: ddHeight }}>
+                <Link
+                    to="/:k-means"
+                    onClick={props.closeNav}
+                    style={
+                        props.currentTab.slice(0, 3) === "K M"
+                            ? { color: "red" }
+                            : null
+                    }
+                >
+                    K-Means
+                </Link>
+                <Link
+                    to="/:discrete-cosine-transform"
+                    onClick={props.closeNav}
+                    style={
+                        props.currentTab.slice(0, 3) === "Dis"
+                            ? { color: "red" }
+                            : null
+                    }
+                >
+                    Discrete Cosine Transform
+                </Link>
+                <Link
+                    to="/:fractal-compression"
+                    onClick={props.closeNav}
+                    style={
+                        props.currentTab.slice(0, 3) === "Fra"
+                            ? { color: "red" }
+                            : null
+                    }
+                >
+                    Fractal Compression
+                </Link>
+            </div>
         </div>
     );
 };
