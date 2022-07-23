@@ -1,31 +1,28 @@
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import SideNav from "../components/SideNav";
 import Main from "./Main";
+import useIsMobile from "../hooks/useIsMobile";
 import "../styles/App.scss";
-import React from "react";
-import { useState, useEffect } from "react";
 import sideImg from "../images/sidebar-icon.png";
-import { useLocation } from "react-router-dom";
-import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const toTitle = (title) => {
-    let newTitle =
-        title === ""
-            ? "Recreational Image Compression"
-            : title.charAt(0) === ":"
-            ? title.slice(1)
-            : title;
+    let newTitle = title === "" ? "Recreational Image Compression" : title;
+    if (title.charAt(0) === ":") {
+        newTitle = title.slice(1);
+    }
     newTitle = newTitle.replaceAll("-", " ");
-    return newTitle.replace(/\w\S*/g, (title) => {
-        return title.charAt(0).toUpperCase() + title.substr(1).toLowerCase();
-    });
+    return newTitle.replace(
+        /\w\S*/g,
+        (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(),
+    );
 };
 
-const App = () => {
+function App() {
     const title = toTitle(useLocation().pathname.slice(1).replaceAll("-", " "));
 
     const [navWid, setNavWid] = useState("0%");
-    const { height, width } = useWindowDimensions();
-    const isMobile = width < 600;
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         document.title = title;
@@ -43,7 +40,11 @@ const App = () => {
         <React.StrictMode>
             <div className="app">
                 <div className="top-bar">
-                    <button onClick={openSideNav} className="sidenav-open">
+                    <button
+                        type="button"
+                        onClick={openSideNav}
+                        className="sidenav-open"
+                    >
                         <img
                             className="sidenav-btn-img"
                             src={sideImg}
@@ -52,7 +53,7 @@ const App = () => {
                     </button>
                 </div>
                 <SideNav
-                    width={navWid}
+                    navWidth={navWid}
                     closeNav={closeSideNav}
                     currentTab={title}
                 />
@@ -60,6 +61,6 @@ const App = () => {
             </div>
         </React.StrictMode>
     );
-};
+}
 
 export default App;

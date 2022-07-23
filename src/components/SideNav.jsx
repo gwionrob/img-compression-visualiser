@@ -1,7 +1,9 @@
+import { React, useState } from "react";
+import propTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
-const SideNav = (props) => {
+function SideNav(props) {
+    const { navWidth, closeNav, currentTab } = props;
     const [ddHeight, setDdHeight] = useState("0%");
     const [dropDownVisible, setDropDownVisible] = useState(false);
 
@@ -11,15 +13,15 @@ const SideNav = (props) => {
     };
 
     return (
-        <div className="sidenav" style={{ width: props.width }}>
-            <button onClick={props.closeNav} className="sidenav-close">
+        <div className="sidenav" style={{ width: navWidth }}>
+            <button type="button" onClick={closeNav} className="sidenav-close">
                 X
             </button>
             <Link
                 to="/"
-                onClick={props.closeNav}
+                onClick={closeNav}
                 style={
-                    props.currentTab.slice(0, 3) === "Rec"
+                    currentTab.slice(0, 3) === "Rec"
                         ? { color: "red" }
                         : null
                 }
@@ -28,9 +30,9 @@ const SideNav = (props) => {
             </Link>
             <Link
                 to="/about"
-                onClick={props.closeNav}
+                onClick={closeNav}
                 style={
-                    props.currentTab.slice(0, 3) === "Abo"
+                    currentTab.slice(0, 3) === "Abo"
                         ? { color: "red" }
                         : null
                 }
@@ -38,10 +40,11 @@ const SideNav = (props) => {
                 About
             </Link>
             <button
+                type="button"
                 className="dropdown-btn"
                 onClick={toggleDd}
                 style={
-                    ["K M", "Dis", "Fra"].includes(props.currentTab.slice(0, 3))
+                    ["K M", "Dis", "Fra"].includes(currentTab.slice(0, 3))
                         ? { color: "red" }
                         : null
                 }
@@ -51,9 +54,9 @@ const SideNav = (props) => {
             <div className="dropdown-container" style={{ height: ddHeight }}>
                 <Link
                     to="/:k-means"
-                    onClick={props.closeNav}
+                    onClick={closeNav}
                     style={
-                        props.currentTab.slice(0, 3) === "K M"
+                        currentTab.slice(0, 3) === "K M"
                             ? { color: "red" }
                             : null
                     }
@@ -62,9 +65,9 @@ const SideNav = (props) => {
                 </Link>
                 <Link
                     to="/:discrete-cosine-transform"
-                    onClick={props.closeNav}
+                    onClick={closeNav}
                     style={
-                        props.currentTab.slice(0, 3) === "Dis"
+                        currentTab.slice(0, 3) === "Dis"
                             ? { color: "red" }
                             : null
                     }
@@ -73,9 +76,9 @@ const SideNav = (props) => {
                 </Link>
                 <Link
                     to="/:fractal-compression"
-                    onClick={props.closeNav}
+                    onClick={closeNav}
                     style={
-                        props.currentTab.slice(0, 3) === "Fra"
+                        currentTab.slice(0, 3) === "Fra"
                             ? { color: "red" }
                             : null
                     }
@@ -85,6 +88,12 @@ const SideNav = (props) => {
             </div>
         </div>
     );
+}
+
+SideNav.propTypes = {
+    navWidth: propTypes.string.isRequired,
+    closeNav: propTypes.func.isRequired,
+    currentTab: propTypes.string.isRequired,
 };
 
 export default SideNav;

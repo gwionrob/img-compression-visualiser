@@ -1,26 +1,25 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import DragSelect from "dragselect";
+import { HexColorPicker } from "react-colorful";
+import { useParams, useNavigate } from "react-router-dom";
 import MByNDropdown from "../components/MByNDropdown";
 import Pixel from "../components/Pixel";
 import XByXButton from "../components/XByXButton";
 import CompressButton from "../components/CompressButton";
-import DragSelect from "dragselect";
-import { HexColorPicker } from "react-colorful";
-import useWindowDimensions from "../hooks/useWindowDimensions";
-import { useParams, useNavigate } from "react-router-dom";
+import useIsMobile from "../hooks/useIsMobile";
 
-const Visualiser = () => {
-    const params = useParams();
-    const navigate = useNavigate();
+function Visualiser() {
     const [columns, setNoOfColumns] = useState(3);
     const [rows, setNoOfRows] = useState(3);
-    const [algo, setAlgo] = useState(params.algo);
     const [colors, setColors] = useState(Array(rows * columns).fill("#000000"));
     const [displayColPick, setDisplayColPick] = useState(false);
     const [selectedPixels, setSelectedPixels] = useState([]);
-    const { height, width } = useWindowDimensions();
-    const isMobile = width < 600;
-    const pixelRefs = useRef([]);
     const compSelectRef = useRef(null);
+    const isMobile = useIsMobile();
+    const navigate = useNavigate();
+    const params = useParams();
+    const [algo, setAlgo] = useState(params.algo);
+    const pixelRefs = useRef([]);
     const targetRef = useRef(null);
 
     useEffect(() => {
@@ -32,9 +31,7 @@ const Visualiser = () => {
             return;
         }
         const dragSelect = new DragSelect({
-            selectables: pixelRefs.current.filter((el) => {
-                return el !== null;
-            }),
+            selectables: pixelRefs.current.filter((el) => el !== null),
             area: targetRef.current,
             draggability: false,
             customStyles: true,
@@ -42,9 +39,9 @@ const Visualiser = () => {
         dragSelect.subscribe("callback", (e) => {
             if (e.items.length) {
                 setSelectedPixels(e.items);
-                for (const el of e.items) {
+                e.items.forEach((el) => {
                     el.classList.add("selected");
-                }
+                });
                 setDisplayColPick(true);
                 dragSelect.stop();
             }
@@ -60,7 +57,7 @@ const Visualiser = () => {
         setNoOfRows(n);
         if (m * n >= colors.length) {
             setColors(
-                colors.concat(Array(m * n - colors.length).fill("#000000"))
+                colors.concat(Array(m * n - colors.length).fill("#000000")),
             );
         } else {
             setColors(colors.slice(0, m * n));
@@ -68,10 +65,10 @@ const Visualiser = () => {
     };
 
     const onColChangeMethod = (color) => {
-        let colorsCopy = [...colors];
-        for (const el of selectedPixels) {
+        const colorsCopy = [...colors];
+        selectedPixels.forEach((el) => {
             colorsCopy[el.id] = color;
-        }
+        });
         setColors(colorsCopy);
     };
 
@@ -81,9 +78,9 @@ const Visualiser = () => {
                 return;
             }
         }
-        for (const el of selectedPixels) {
+        selectedPixels.forEach((el) => {
             el.classList.remove("selected");
-        }
+        });
         setDisplayColPick(false);
     };
 
@@ -105,9 +102,11 @@ const Visualiser = () => {
             <Pixel
                 id={i}
                 key={i}
-                innerRef={(el) => (pixelRefs.current[i] = el)}
+                innerRef={(el) => {
+                    pixelRefs.current[i] = el;
+                }}
                 color={colors[i]}
-            />
+            />,
         );
     }
 
@@ -117,8 +116,8 @@ const Visualiser = () => {
     const colVsRow = columns > rows;
 
     const compSelectStyle = {
-        height: (isMobile ? 50 : 25).toString() + "%",
-        width: (100).toString() + "%",
+        height: `${(isMobile ? 50 : 25).toString()}%`,
+        width: `${(100).toString()}%`,
     };
 
     const portraitStyle = {
@@ -128,9 +127,9 @@ const Visualiser = () => {
         height: isMobile ? "95vw" : "50vw",
         width: isMobile ? "95vw" : "50vw",
         maxHeight: colVsRow
-            ? (80 * (rows / columns)).toString() + "vh"
+            ? `${(80 * (rows / columns)).toString()}vh`
             : "80vh",
-        maxWidth: colVsRow ? "80vh" : (80 * (columns / rows)).toString() + "vh",
+        maxWidth: colVsRow ? "80vh" : `${(80 * (columns / rows)).toString()}vh`,
     };
 
     return (
@@ -142,11 +141,11 @@ const Visualiser = () => {
                     value={algo}
                     style={compSelectStyle}
                 >
-                    <option value={":k-means"}>K-Means</option>
-                    <option value={":discrete-cosine-transform"}>
+                    <option value=":k-means">K-Means</option>
+                    <option value=":discrete-cosine-transform">
                         Discrete Cosine Transform
                     </option>
-                    <option value={":fractal-compression"}>
+                    <option value=":fractal-compression">
                         Fractal Compression
                     </option>
                 </select>
@@ -156,7 +155,6 @@ const Visualiser = () => {
                 {pixels}
                 {displayColPick ? (
                     <HexColorPicker
-                        on
                         onChange={onColChangeMethod}
                         onMouseUp={onColMouseUpMethod}
                         onTouchEnd={onColMouseUpMethod}
@@ -171,6 +169,6 @@ const Visualiser = () => {
             </div>
         </div>
     );
-};
+}
 
 export default Visualiser;

@@ -1,21 +1,22 @@
-import { useRef } from "react";
-import useWindowDimensions from "../hooks/useWindowDimensions";
+import React, { useRef } from "react";
+import propTypes from "prop-types";
+import useIsMobile from "../hooks/useIsMobile";
 
-const MByNDropdown = (props) => {
+function MByNDropdown(props) {
+    const { mByN, m, n } = props;
     const mSelectRef = useRef(null);
     const nSelectRef = useRef(null);
-    const { height, width } = useWindowDimensions();
-    const isMobile = width < 600;
+    const isMobile = useIsMobile();
 
     const changeHandler = () => {
-        const newM = parseInt(mSelectRef.current.value);
-        const newN = parseInt(nSelectRef.current.value);
-        props.mByN(newM, newN);
+        const newM = parseInt(mSelectRef.current.value, 10);
+        const newN = parseInt(nSelectRef.current.value, 10);
+        mByN(newM, newN);
     };
 
     const containerStyle = {
-        height: (isMobile ? 50 : 25).toString() + "%",
-        width: (100).toString() + "%",
+        height: `${(isMobile ? 50 : 25).toString()}%`,
+        width: `${(100).toString()}%`,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -23,8 +24,8 @@ const MByNDropdown = (props) => {
     };
 
     const ddStyle = {
-        height: (100).toString() + "%",
-        width: (45).toString() + "%",
+        height: `${(100).toString()}%`,
+        width: `${(45).toString()}%`,
     };
 
     const options = [];
@@ -33,7 +34,7 @@ const MByNDropdown = (props) => {
         options.push(
             <option value={i} key={i}>
                 {i}
-            </option>
+            </option>,
         );
     }
 
@@ -42,7 +43,7 @@ const MByNDropdown = (props) => {
             <select
                 style={ddStyle}
                 ref={mSelectRef}
-                value={props.m}
+                value={m}
                 onChange={changeHandler}
             >
                 {options}
@@ -51,13 +52,19 @@ const MByNDropdown = (props) => {
             <select
                 style={ddStyle}
                 ref={nSelectRef}
-                value={props.n}
+                value={n}
                 onChange={changeHandler}
             >
                 {options}
             </select>
         </div>
     );
+}
+
+MByNDropdown.propTypes = {
+    mByN: propTypes.func.isRequired,
+    m: propTypes.number.isRequired,
+    n: propTypes.number.isRequired,
 };
 
 export default MByNDropdown;
