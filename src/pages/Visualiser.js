@@ -8,7 +8,7 @@ import { HexColorPicker } from "react-colorful";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import { useParams, useNavigate } from "react-router-dom";
 
-const Visualiser = (props) => {
+const Visualiser = () => {
     const params = useParams();
     const navigate = useNavigate();
     const [columns, setNoOfColumns] = useState(3);
