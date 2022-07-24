@@ -27,15 +27,17 @@ function Visualiser() {
     }, [params.algo]);
 
     useEffect(() => {
-        if (displayColPick) {
+        if (displayColPick || document.querySelector(".ds-selector-area")) {
             return;
         }
+
         const dragSelect = new DragSelect({
             selectables: pixelRefs.current.filter((el) => el !== null),
             area: targetRef.current,
             draggability: false,
             customStyles: true,
         });
+
         dragSelect.subscribe("callback", (e) => {
             if (e.items.length) {
                 setSelectedPixels(e.items);
