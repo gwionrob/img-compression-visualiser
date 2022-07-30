@@ -24,12 +24,12 @@ function MByNDropdown(props) {
     };
 
     const ddStyle = {
-        height: `${(100).toString()}%`,
+        height: `${(50).toString()}%`,
         width: `${(45).toString()}%`,
     };
 
     const options = [];
-    const maxOptions = isMobile ? 10 : 13;
+    const maxOptions = isMobile ? 10 : 17;
     for (let i = 1; i < maxOptions; i++) {
         options.push(
             <option value={i} key={i}>

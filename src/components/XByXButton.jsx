@@ -17,9 +17,7 @@ function XByXButton(props) {
 
     return (
         <button type="button" onClick={onClickHandler} style={style}>
-            {x }
-            x
-            { x}
+            {`${x} `}x{` ${x}`}
         </button>
     );
 }

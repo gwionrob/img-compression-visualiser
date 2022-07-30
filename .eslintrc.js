@@ -3,7 +3,7 @@ module.exports = {
         browser: true,
         es2021: true,
     },
-    extends: ["plugin:react/recommended", "airbnb"],
+    extends: ["plugin:react/recommended", "airbnb", "prettier"],
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
@@ -14,7 +14,7 @@ module.exports = {
     plugins: ["react"],
     rules: {
         // Indent with 4 spaces
-        indent: ["error", 4],
+        indent: "off",
 
         // Indent JSX with 4 spaces
         "react/jsx-indent": ["error", 4],

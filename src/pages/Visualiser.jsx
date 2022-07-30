@@ -1,21 +1,30 @@
 import React, { useState, useRef, useEffect } from "react";
 import DragSelect from "dragselect";
-import { HexColorPicker } from "react-colorful";
+import { RgbColorPicker } from "react-colorful";
 import { useParams, useNavigate } from "react-router-dom";
+import CompressButton from "../components/CompressButton";
 import MByNDropdown from "../components/MByNDropdown";
 import Pixel from "../components/Pixel";
 import XByXButton from "../components/XByXButton";
-import CompressButton from "../components/CompressButton";
+import kMeans from "../utilities/kmeans";
 import useIsMobile from "../hooks/useIsMobile";
 
 function Visualiser() {
+    const [k, setK] = useState(3);
     const [columns, setNoOfColumns] = useState(3);
     const [rows, setNoOfRows] = useState(3);
-    const [colors, setColors] = useState(Array(rows * columns).fill("#000000"));
+    const [colors, setColors] = useState(
+        Array(rows * columns).fill({ r: 0, g: 0, b: 0 }),
+    );
     const [displayColPick, setDisplayColPick] = useState(false);
     const [selectedPixels, setSelectedPixels] = useState([]);
     const compSelectRef = useRef(null);
     const isMobile = useIsMobile();
+    const colVRow = columns >= rows;
+    const pixelDimensions = `calc((${isMobile ? "95vw" : "55vw"} / ${(colVRow
+        ? columns
+        : rows
+    ).toString()}) - 6px)`;
     const navigate = useNavigate();
     const params = useParams();
     const [algo, setAlgo] = useState(params.algo);
@@ -59,7 +68,9 @@ function Visualiser() {
         setNoOfRows(n);
         if (m * n >= colors.length) {
             setColors(
-                colors.concat(Array(m * n - colors.length).fill("#000000")),
+                colors.concat(
+                    Array(m * n - colors.length).fill({ r: 0, g: 0, b: 0 }),
+                ),
             );
         } else {
             setColors(colors.slice(0, m * n));
@@ -93,12 +104,51 @@ function Visualiser() {
         });
     };
 
-    const onCompress = (pixels) => {
-        console.log(pixels);
+    const onCompress = () => {
+        const algorithm = algo.slice(1);
+        const colArray = colors.map((col) => Object.values(col));
+        if (algorithm === "k-means") {
+            setColors(kMeans(colArray, k));
+        }
+    };
+
+    const onRandomize = () => {
+        const randCol = [];
+        const noOfCols = rows * columns;
+        for (let i = 0; i < noOfCols; i++) {
+            randCol.push({
+                r: Math.floor(Math.random() * 255),
+                g: Math.floor(Math.random() * 255),
+                b: Math.floor(Math.random() * 255),
+            });
+        }
+        setColors(randCol);
+    };
+
+    const pixelStyle = {
+        height: pixelDimensions,
+        width: pixelDimensions,
+        maxHeight: `calc(${isMobile ? "95vw" : "90vh"} / ${Math.max(
+            rows,
+            columns,
+        )} - 6px)`,
+        maxWidth: `calc(${isMobile ? "95vw" : "90vh"} / ${Math.max(
+            rows,
+            columns,
+        )} - 6px)`,
+    };
+
+    const portraitStyle = {
+        width: colVRow
+            ? `${isMobile ? "95vw" : "55vw"}`
+            : `calc(${isMobile ? "95vw" : "55vw"} - (${rows - columns} * ${
+                  isMobile ? "95vw" : "55vw"
+              } / ${rows}))`,
+        maxWidth: isMobile ? "95vw" : "90vh",
+        maxHeight: isMobile ? "95vw" : "90vh",
     };
 
     const pixels = [];
-
     for (let i = 0; i < columns * rows; i++) {
         pixels.push(
             <Pixel
@@ -108,30 +158,23 @@ function Visualiser() {
                     pixelRefs.current[i] = el;
                 }}
                 color={colors[i]}
+                style={pixelStyle}
             />,
         );
     }
 
-    const gridTempCol = Array(columns).fill("1fr").join(" ");
-    const gridTempRow = Array(rows).fill("1fr").join(" ");
+    const optionsK = [];
+    for (let i = 1; i < Math.min(17, columns * rows); i++) {
+        optionsK.push(
+            <option value={i} key={i}>
+                {i}
+            </option>,
+        );
+    }
 
-    const colVsRow = columns > rows;
-
-    const compSelectStyle = {
+    const selectStyle = {
         height: `${(isMobile ? 50 : 25).toString()}%`,
-        width: `${(100).toString()}%`,
-    };
-
-    const portraitStyle = {
-        display: "grid",
-        gridTemplateColumns: gridTempCol,
-        gridTemplateRows: gridTempRow,
-        height: isMobile ? "95vw" : "50vw",
-        width: isMobile ? "95vw" : "50vw",
-        maxHeight: colVsRow
-            ? `${(80 * (rows / columns)).toString()}vh`
-            : "80vh",
-        maxWidth: colVsRow ? "80vh" : `${(80 * (columns / rows)).toString()}vh`,
+        width: `${(isMobile ? 50 : 100).toString()}%`,
     };
 
     return (
@@ -141,7 +184,7 @@ function Visualiser() {
                     ref={compSelectRef}
                     onChange={onCompSelect}
                     value={algo}
-                    style={compSelectStyle}
+                    style={selectStyle}
                 >
                     <option value=":k-means">K-Means</option>
                     <option value=":discrete-cosine-transform">
@@ -151,12 +194,24 @@ function Visualiser() {
                         Fractal Compression
                     </option>
                 </select>
-                <CompressButton onCompress={onCompress} algo={algo} />
+                {algo.slice(1) === "k-means" ? (
+                    <div className="k-input-wrapper">
+                        <div className="k-title">K:</div>
+                        <select
+                            value={k}
+                            onChange={(e) => setK(parseInt(e.target.value, 10))}
+                        >
+                            {optionsK}
+                        </select>
+                    </div>
+                ) : null}
+                <CompressButton onClick={onCompress} title="Compress" />
+                <CompressButton onClick={onRandomize} title="Random Colors" />
             </div>
-            <div className="portrait" style={portraitStyle} ref={targetRef}>
+            <div className="portrait" ref={targetRef} style={portraitStyle}>
                 {pixels}
                 {displayColPick ? (
-                    <HexColorPicker
+                    <RgbColorPicker
                         onChange={onColChangeMethod}
                         onMouseUp={onColMouseUpMethod}
                         onTouchEnd={onColMouseUpMethod}
