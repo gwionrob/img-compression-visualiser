@@ -3,28 +3,28 @@ import propTypes from "prop-types";
 import useIsMobile from "../hooks/useIsMobile";
 
 function CompressButton(props) {
-    const { onCompress, algo } = props;
+    const { onClick, title } = props;
     const isMobile = useIsMobile();
 
     const onClickHandler = () => {
-        onCompress(algo.slice(1));
+        onClick();
     };
 
     const style = {
         height: `${(isMobile ? 50 : 25).toString()}%`,
-        width: `${(100).toString()}%`,
+        width: `${(isMobile ? 50 : 100).toString()}%`,
     };
 
     return (
         <button type="button" onClick={onClickHandler} style={style}>
-            Compress
+            {title}
         </button>
     );
 }
 
 CompressButton.propTypes = {
-    onCompress: propTypes.func.isRequired,
-    algo: propTypes.string.isRequired,
+    onClick: propTypes.func.isRequired,
+    title: propTypes.string.isRequired,
 };
 
 export default CompressButton;

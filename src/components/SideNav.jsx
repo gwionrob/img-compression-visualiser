@@ -21,9 +21,7 @@ function SideNav(props) {
                 to="/"
                 onClick={closeNav}
                 style={
-                    currentTab.slice(0, 3) === "Rec"
-                        ? { color: "red" }
-                        : null
+                    currentTab.slice(0, 3) === "Rec" ? { color: "red" } : null
                 }
             >
                 Home
@@ -32,9 +30,7 @@ function SideNav(props) {
                 to="/about"
                 onClick={closeNav}
                 style={
-                    currentTab.slice(0, 3) === "Abo"
-                        ? { color: "red" }
-                        : null
+                    currentTab.slice(0, 3) === "Abo" ? { color: "red" } : null
                 }
             >
                 About
