@@ -57,15 +57,15 @@ function Visualiser() {
                 dragSelect.stop();
             }
         });
-    }, [pixelRefs, targetRef, columns, rows, displayColPick]);
+    }, [pixelRefs, targetRef, rows, columns, displayColPick]);
 
     const mByN = (m, n) => {
-        if (m === columns && n === rows) {
+        if (m === rows && n === columns) {
             return;
         }
         document.querySelector(".ds-selector-area").remove();
-        setNoOfColumns(m);
-        setNoOfRows(n);
+        setNoOfRows(m);
+        setNoOfColumns(n);
         if (m * n >= colors.length) {
             setColors(
                 colors.concat(
@@ -222,7 +222,7 @@ function Visualiser() {
                 <XByXButton x={3} mByN={mByN} />
                 <XByXButton x={5} mByN={mByN} />
                 <XByXButton x={7} mByN={mByN} />
-                <MByNDropdown m={columns} n={rows} mByN={mByN} />
+                <MByNDropdown m={rows} n={columns} mByN={mByN} />
             </div>
         </div>
     );
