@@ -37,29 +37,27 @@ function App() {
     };
 
     return (
-        <React.StrictMode>
-            <div className="app">
-                <div className="top-bar">
-                    <button
-                        type="button"
-                        onClick={openSideNav}
-                        className="sidenav-open"
-                    >
-                        <img
-                            className="sidenav-btn-img"
-                            src={sideImg}
-                            alt="sidenav button icon"
-                        />
-                    </button>
-                </div>
-                <SideNav
-                    navWidth={navWid}
-                    closeNav={closeSideNav}
-                    currentTab={title}
-                />
-                <Main />
+        <div className="app">
+            <div className="top-bar">
+                <button
+                    type="button"
+                    onClick={openSideNav}
+                    className="sidenav-open"
+                >
+                    <img
+                        className="sidenav-btn-img"
+                        src={sideImg}
+                        alt="sidenav button icon"
+                    />
+                </button>
             </div>
-        </React.StrictMode>
+            <SideNav
+                navWidth={navWid}
+                closeNav={closeSideNav}
+                currentTab={title}
+            />
+            <Main />
+        </div>
     );
 }
 

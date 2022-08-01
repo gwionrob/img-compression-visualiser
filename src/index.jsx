@@ -6,7 +6,9 @@ import App from "./pages/App";
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-    <BrowserRouter basename="/img-compression-visualiser">
-        <App />
-    </BrowserRouter>,
+    <React.StrictMode>
+        <BrowserRouter basename="/img-compression-visualiser">
+            <App />
+        </BrowserRouter>
+    </React.StrictMode>,
 );
