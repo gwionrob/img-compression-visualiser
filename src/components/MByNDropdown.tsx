@@ -1,20 +1,25 @@
 import React, { useRef } from "react";
-import propTypes from "prop-types";
 import useIsMobile from "../hooks/useIsMobile";
 
-function MByNDropdown(props) {
-    const { mByN, m, n } = props;
-    const mSelectRef = useRef(null);
-    const nSelectRef = useRef(null);
-    const isMobile = useIsMobile();
+type Props = {
+    mByN: Function;
+    m: number;
+    n: number;
+};
+
+function MByNDropdown({ mByN, m, n }: Props): JSX.Element {
+    const mSelectRef = useRef<HTMLSelectElement>(null);
+    const nSelectRef = useRef<HTMLSelectElement>(null);
+    const isMobile: boolean = useIsMobile();
 
     const changeHandler = () => {
+        if (mSelectRef.current === null || nSelectRef.current === null) return;
         const newM = parseInt(mSelectRef.current.value, 10);
         const newN = parseInt(nSelectRef.current.value, 10);
         mByN(newM, newN);
     };
 
-    const containerStyle = {
+    const containerStyle: React.CSSProperties = {
         height: `${(isMobile ? 50 : 25).toString()}%`,
         width: `${(100).toString()}%`,
         display: "flex",
@@ -23,13 +28,13 @@ function MByNDropdown(props) {
         justifyContent: "space-between",
     };
 
-    const ddStyle = {
+    const ddStyle: React.CSSProperties = {
         height: `${(50).toString()}%`,
         width: `${(45).toString()}%`,
     };
 
-    const options = [];
-    const maxOptions = isMobile ? 10 : 17;
+    const options: Array<JSX.Element> = [];
+    const maxOptions: number = isMobile ? 10 : 17;
     for (let i = 1; i < maxOptions; i++) {
         options.push(
             <option value={i} key={i}>
@@ -60,11 +65,5 @@ function MByNDropdown(props) {
         </div>
     );
 }
-
-MByNDropdown.propTypes = {
-    mByN: propTypes.func.isRequired,
-    m: propTypes.number.isRequired,
-    n: propTypes.number.isRequired,
-};
 
 export default MByNDropdown;

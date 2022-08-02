@@ -9,27 +9,30 @@ import XByXButton from "../components/XByXButton";
 import kMeans from "../utilities/kmeans";
 import useIsMobile from "../hooks/useIsMobile";
 
-function Visualiser() {
-    const [k, setK] = useState(3);
-    const [columns, setNoOfColumns] = useState(3);
-    const [rows, setNoOfRows] = useState(3);
-    const [colors, setColors] = useState(
+type RGB = { r: number; g: number; b: number };
+
+function Visualiser(): JSX.Element {
+    const [k, setK] = useState<number>(3);
+    const [columns, setNoOfColumns] = useState<number>(3);
+    const [rows, setNoOfRows] = useState<number>(3);
+    const [colors, setColors] = useState<Array<RGB>>(
         Array(rows * columns).fill({ r: 0, g: 0, b: 0 }),
     );
-    const [displayColPick, setDisplayColPick] = useState(false);
-    const [selectedPixels, setSelectedPixels] = useState([]);
-    const compSelectRef = useRef(null);
-    const isMobile = useIsMobile();
-    const colVRow = columns >= rows;
-    const pixelDimensions = `calc((${isMobile ? "95vw" : "55vw"} / ${(colVRow
-        ? columns
-        : rows
-    ).toString()}) - 6px)`;
+    const [displayColPick, setDisplayColPick] = useState<boolean>(false);
+    const [selectedPixels, setSelectedPixels] = useState<Array<HTMLDivElement>>(
+        [],
+    );
+    const compSelectRef = useRef<HTMLSelectElement>(null);
+    const isMobile: boolean = useIsMobile();
+    const colVRow: boolean = columns >= rows;
+    const pixelDimensions: string = `calc((${
+        isMobile ? "95vw" : "55vw"
+    } / ${(colVRow ? columns : rows).toString()}) - 6px)`;
+    const pixelRefs = useRef<Array<HTMLDivElement>>([]);
+    const targetRef = useRef<HTMLDivElement>(null);
+    const params = useParams<string>();
+    const [algo, setAlgo] = useState<string | undefined>(params.algo);
     const navigate = useNavigate();
-    const params = useParams();
-    const [algo, setAlgo] = useState(params.algo);
-    const pixelRefs = useRef([]);
-    const targetRef = useRef(null);
 
     useEffect(() => {
         setAlgo(params.algo);
@@ -40,30 +43,31 @@ function Visualiser() {
             return;
         }
 
-        const dragSelect = new DragSelect({
-            selectables: pixelRefs.current.filter((el) => el !== null),
-            area: targetRef.current,
-            draggability: false,
-            customStyles: true,
-        });
-
-        dragSelect.subscribe("callback", (e) => {
-            if (e.items.length) {
-                setSelectedPixels(e.items);
-                e.items.forEach((el) => {
-                    el.classList.add("selected");
-                });
-                setDisplayColPick(true);
-                dragSelect.stop();
-            }
-        });
+        if (targetRef.current !== null) {
+            const dragSelect = new DragSelect({
+                selectables: pixelRefs.current.filter((el) => el !== null),
+                area: targetRef.current,
+                draggability: false,
+                customStyles: true,
+            });
+            dragSelect.subscribe("callback", (e: CallbackObject) => {
+                if (e.items !== undefined) {
+                    setSelectedPixels(e.items);
+                    e.items.forEach((el) => {
+                        el.classList.add("selected");
+                    });
+                    setDisplayColPick(true);
+                    dragSelect.stop();
+                }
+            });
+        }
     }, [pixelRefs, targetRef, rows, columns, displayColPick]);
 
-    const mByN = (m, n) => {
+    const mByN = (m: number, n: number) => {
         if (m === rows && n === columns) {
             return;
         }
-        document.querySelector(".ds-selector-area").remove();
+        document.querySelector(".ds-selector-area")!.remove();
         setNoOfRows(m);
         setNoOfColumns(n);
         if (m * n >= colors.length) {
@@ -77,17 +81,31 @@ function Visualiser() {
         }
     };
 
-    const onColChangeMethod = (color) => {
+    const onColChangeMethod = (color: RGB) => {
         const colorsCopy = [...colors];
         selectedPixels.forEach((el) => {
-            colorsCopy[el.id] = color;
+            colorsCopy[parseInt(el.id, 10)] = color;
         });
         setColors(colorsCopy);
     };
 
-    const onColMouseUpMethod = (element) => {
-        if (element.target) {
-            if (element.target.className.includes("hue")) {
+    const onColMouseUpMethod = (event: React.MouseEvent) => {
+        event.preventDefault();
+        if (event.target instanceof Element) {
+            if (event.target.className.includes("hue")) {
+                return;
+            }
+        }
+        selectedPixels.forEach((el) => {
+            el.classList.remove("selected");
+        });
+        setDisplayColPick(false);
+    };
+
+    const onTouchEndMethod = (event: React.TouchEvent) => {
+        event.preventDefault();
+        if (event.target instanceof Element) {
+            if (event.target.className.includes("hue")) {
                 return;
             }
         }
@@ -98,23 +116,28 @@ function Visualiser() {
     };
 
     const onCompSelect = () => {
-        setAlgo(compSelectRef.current.value);
-        navigate(`../${compSelectRef.current.value}`, {
+        setAlgo(compSelectRef.current!.value);
+        navigate(`../${compSelectRef.current!.value}`, {
             replace: true,
         });
     };
 
     const onCompress = () => {
-        const algorithm = algo.slice(1);
-        const colArray = colors.map((col) => Object.values(col));
+        if (algo === undefined) {
+            return;
+        }
+        const algorithm: string = algo.slice(1);
+        const colArray: Array<Array<number>> = colors.map((col) =>
+            Object.values(col),
+        );
         if (algorithm === "k-means") {
             setColors(kMeans(colArray, k));
         }
     };
 
     const onRandomize = () => {
-        const randCol = [];
-        const noOfCols = rows * columns;
+        const randCol: Array<RGB> = [];
+        const noOfCols: number = rows * columns;
         for (let i = 0; i < noOfCols; i++) {
             randCol.push({
                 r: Math.floor(Math.random() * 255),
@@ -125,7 +148,7 @@ function Visualiser() {
         setColors(randCol);
     };
 
-    const pixelStyle = {
+    const pixelStyle: React.CSSProperties = {
         height: pixelDimensions,
         width: pixelDimensions,
         maxHeight: `calc(${isMobile ? "95vw" : "90vh"} / ${Math.max(
@@ -138,7 +161,7 @@ function Visualiser() {
         )} - 6px)`,
     };
 
-    const portraitStyle = {
+    const portraitStyle: React.CSSProperties = {
         width: colVRow
             ? `${isMobile ? "95vw" : "55vw"}`
             : `calc(${isMobile ? "95vw" : "55vw"} - (${rows - columns} * ${
@@ -148,13 +171,13 @@ function Visualiser() {
         maxHeight: isMobile ? "95vw" : "90vh",
     };
 
-    const pixels = [];
+    const pixels: Array<JSX.Element> = [];
     for (let i = 0; i < columns * rows; i++) {
         pixels.push(
             <Pixel
-                id={i}
+                id={i.toString()}
                 key={i}
-                innerRef={(el) => {
+                innerRef={(el: HTMLDivElement) => {
                     pixelRefs.current[i] = el;
                 }}
                 color={colors[i]}
@@ -163,7 +186,7 @@ function Visualiser() {
         );
     }
 
-    const optionsK = [];
+    const optionsK: Array<JSX.Element> = [];
     for (let i = 1; i < Math.min(17, columns * rows); i++) {
         optionsK.push(
             <option value={i} key={i}>
@@ -172,7 +195,7 @@ function Visualiser() {
         );
     }
 
-    const selectStyle = {
+    const selectStyle: React.CSSProperties = {
         height: `${(isMobile ? 50 : 25).toString()}%`,
         width: `${(isMobile ? 50 : 100).toString()}%`,
     };
@@ -194,7 +217,7 @@ function Visualiser() {
                         Fractal Compression
                     </option>
                 </select>
-                {algo.slice(1) === "k-means" ? (
+                {algo!.slice(1) === "k-means" ? (
                     <div className="k-input-wrapper">
                         <div className="k-title">K:</div>
                         <select
@@ -214,7 +237,7 @@ function Visualiser() {
                     <RgbColorPicker
                         onChange={onColChangeMethod}
                         onMouseUp={onColMouseUpMethod}
-                        onTouchEnd={onColMouseUpMethod}
+                        onTouchEnd={onTouchEndMethod}
                     />
                 ) : null}
             </div>

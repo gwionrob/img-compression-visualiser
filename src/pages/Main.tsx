@@ -4,7 +4,7 @@ import Home from "./Home";
 import Visualiser from "./Visualiser";
 import About from "./About";
 
-function Main() {
+function Main(): JSX.Element {
     return (
         <Routes>
             <Route path="/" element={<Home />} />

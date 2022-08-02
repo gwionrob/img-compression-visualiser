@@ -1,11 +1,15 @@
-import { React, useState } from "react";
-import propTypes from "prop-types";
+import React, { MouseEventHandler, useState } from "react";
 import { Link } from "react-router-dom";
 
-function SideNav(props) {
-    const { navWidth, closeNav, currentTab } = props;
-    const [ddHeight, setDdHeight] = useState("0%");
-    const [dropDownVisible, setDropDownVisible] = useState(false);
+type Props = {
+    navWidth: string;
+    closeNav: MouseEventHandler;
+    currentTab: string;
+};
+
+function SideNav({ navWidth, closeNav, currentTab }: Props): JSX.Element {
+    const [ddHeight, setDdHeight] = useState<string>("0%");
+    const [dropDownVisible, setDropDownVisible] = useState<boolean>(false);
 
     const toggleDd = () => {
         setDdHeight(dropDownVisible ? "0%" : "40%");
@@ -21,7 +25,9 @@ function SideNav(props) {
                 to="/"
                 onClick={closeNav}
                 style={
-                    currentTab.slice(0, 3) === "Rec" ? { color: "red" } : null
+                    currentTab.slice(0, 3) === "Rec"
+                        ? { color: "red" }
+                        : undefined
                 }
             >
                 Home
@@ -30,7 +36,9 @@ function SideNav(props) {
                 to="/about"
                 onClick={closeNav}
                 style={
-                    currentTab.slice(0, 3) === "Abo" ? { color: "red" } : null
+                    currentTab.slice(0, 3) === "Abo"
+                        ? { color: "red" }
+                        : undefined
                 }
             >
                 About
@@ -42,7 +50,7 @@ function SideNav(props) {
                 style={
                     ["K M", "Dis", "Fra"].includes(currentTab.slice(0, 3))
                         ? { color: "red" }
-                        : null
+                        : undefined
                 }
             >
                 Visualiser
@@ -54,7 +62,7 @@ function SideNav(props) {
                     style={
                         currentTab.slice(0, 3) === "K M"
                             ? { color: "red" }
-                            : null
+                            : undefined
                     }
                 >
                     K-Means
@@ -65,7 +73,7 @@ function SideNav(props) {
                     style={
                         currentTab.slice(0, 3) === "Dis"
                             ? { color: "red" }
-                            : null
+                            : undefined
                     }
                 >
                     Discrete Cosine Transform
@@ -76,7 +84,7 @@ function SideNav(props) {
                     style={
                         currentTab.slice(0, 3) === "Fra"
                             ? { color: "red" }
-                            : null
+                            : undefined
                     }
                 >
                     Fractal Compression
@@ -85,11 +93,5 @@ function SideNav(props) {
         </div>
     );
 }
-
-SideNav.propTypes = {
-    navWidth: propTypes.string.isRequired,
-    closeNav: propTypes.func.isRequired,
-    currentTab: propTypes.string.isRequired,
-};
 
 export default SideNav;

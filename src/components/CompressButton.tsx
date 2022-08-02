@@ -1,16 +1,19 @@
 import React from "react";
-import propTypes from "prop-types";
 import useIsMobile from "../hooks/useIsMobile";
 
-function CompressButton(props) {
-    const { onClick, title } = props;
-    const isMobile = useIsMobile();
+type Props = {
+    onClick: Function;
+    title: string;
+};
+
+function CompressButton({ onClick, title }: Props): JSX.Element {
+    const isMobile: boolean = useIsMobile();
 
     const onClickHandler = () => {
         onClick();
     };
 
-    const style = {
+    const style: React.CSSProperties = {
         height: `${(isMobile ? 50 : 25).toString()}%`,
         width: `${(isMobile ? 50 : 100).toString()}%`,
     };
@@ -21,10 +24,5 @@ function CompressButton(props) {
         </button>
     );
 }
-
-CompressButton.propTypes = {
-    onClick: propTypes.func.isRequired,
-    title: propTypes.string.isRequired,
-};
 
 export default CompressButton;

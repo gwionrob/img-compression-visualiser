@@ -2,32 +2,37 @@ module.exports = {
     env: {
         browser: true,
         es2021: true,
+        jest: true,
     },
-    extends: ["plugin:react/recommended", "airbnb", "prettier"],
+    extends: [
+        "plugin:react/recommended",
+        "airbnb",
+        "prettier",
+        "airbnb-typescript",
+    ],
+    parser: "@typescript-eslint/parser",
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
         },
         ecmaVersion: "latest",
         sourceType: "module",
+        project: ["./tsconfig.json"],
     },
-    plugins: ["react"],
+    plugins: ["react", "@typescript-eslint"],
     rules: {
-        // Indent with 4 spaces
+        quotes: "off",
+        "@typescript-eslint/quotes": [
+            "error",
+            "double",
+            {
+                allowTemplateLiterals: true,
+            },
+        ],
         indent: "off",
-
-        // Indent JSX with 4 spaces
-        "react/jsx-indent": ["error", 4],
-
-        // Indent props with 4 spaces
-        "react/jsx-indent-props": ["error", 4],
-
-        quotes: ["error", "double"],
-
-        semi: ["error", "always"],
-
+        "@typescript-eslint/indent": ["off"],
+        semi: "off",
+        "@typescript-eslint/semi": ["error"],
         "no-plusplus": [2, { allowForLoopAfterthoughts: true }],
-
-        "object-curly-newline": "off",
     },
 };

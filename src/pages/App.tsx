@@ -6,23 +6,26 @@ import useIsMobile from "../hooks/useIsMobile";
 import "../styles/App.scss";
 import sideImg from "../images/sidebar-icon.png";
 
-const toTitle = (title) => {
-    let newTitle = title === "" ? "Recreational Image Compression" : title;
+const toTitle = (title: string) => {
+    let newTitle: string =
+        title === "" ? "Recreational Image Compression" : title;
     if (title.charAt(0) === ":") {
         newTitle = title.slice(1);
     }
     newTitle = newTitle.replaceAll("-", " ");
     return newTitle.replace(
         /\w\S*/g,
-        (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(),
+        (t) => t.charAt(0).toUpperCase() + t.slice(1).toLowerCase(),
     );
 };
 
-function App() {
-    const title = toTitle(useLocation().pathname.slice(1).replaceAll("-", " "));
+function App(): JSX.Element {
+    const title: string = toTitle(
+        useLocation().pathname.slice(1).replaceAll("-", " "),
+    );
 
-    const [navWid, setNavWid] = useState("0%");
-    const isMobile = useIsMobile();
+    const [navWid, setNavWid] = useState<string>("0%");
+    const isMobile: boolean = useIsMobile();
 
     useEffect(() => {
         document.title = title;

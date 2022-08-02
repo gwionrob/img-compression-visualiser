@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-function getWindowWidth() {
+function getWindowWidth(): number {
     const { innerWidth: width } = window;
     return width;
 }
 
-export default function useIsMobile() {
-    const [isMobile, setIsMobile] = useState(getWindowWidth() < 600);
+export default function useIsMobile(): boolean {
+    const [isMobile, setIsMobile] = useState<boolean>(getWindowWidth() < 600);
 
     useEffect(() => {
         function handleResize() {
