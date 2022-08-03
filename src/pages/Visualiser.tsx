@@ -53,7 +53,7 @@ function Visualiser(): JSX.Element {
             dragSelect.subscribe("callback", (e: CallbackObject) => {
                 if (e.items !== undefined) {
                     setSelectedPixels(e.items);
-                    e.items.forEach((el) => {
+                    e.items.forEach((el: HTMLDivElement) => {
                         el.classList.add("selected");
                     });
                     setDisplayColPick(true);
