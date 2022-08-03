@@ -1,7 +1,7 @@
 {
     "name": "image-compressor",
     "version": "0.1.0",
-    "homepage": "https://gwionrob.github.io/img-compression-visualiser",
+    "homepage": "https://gwionrob.github.io/image-compression-visualiser",
     "private": true,
     "dependencies": {
         "@testing-library/jest-dom": "^5.16.4",

@@ -9,7 +9,7 @@ function Main(): JSX.Element {
         <Routes>
             <Route path="/" element={<Home />} />
 
-            <Route path="/img-compression-visualiser" element={<Home />} />
+            <Route path="/image-compression-visualiser" element={<Home />} />
 
             <Route path="/about" element={<About />} />
 
